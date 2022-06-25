@@ -38,7 +38,7 @@ const SidebarStyles = styled.div`
 const sidebarLinks = [
     {
         title: "Dashboard",
-        url: "/dashboard",
+        url: "/admin/dash-board",
         icon: (
             <svg
                 xmlns="http://www.w3.org/2000/svg"
