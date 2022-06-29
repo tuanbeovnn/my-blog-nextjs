@@ -8,9 +8,10 @@ const composeEnhancer = process.env.NODE_ENV !== 'production' && typeof window =
     shouldHotReload: false,
 }) : compose;
 
-const sagaMiddleware = createSagaMiddleware();
+
 
 const configureStore = () => {
+    const sagaMiddleware = createSagaMiddleware();
     const middleWare = [sagaMiddleware];
     const enhancers = [applyMiddleware(...middleWare)];
     const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
