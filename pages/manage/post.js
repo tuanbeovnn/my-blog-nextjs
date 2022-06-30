@@ -6,14 +6,15 @@ import wrapper from "../../redux/configureStore";
 import typeAction from '../../redux/actions/admin';
 import { END } from "redux-saga";
 import { connect } from "react-redux";
+import {getServerSideProps} from "./../../utils/getServerSideProps";
 
 
 
 const PostManage = (props) => {
 
-    const { posts } = props;
+    const { posts, categories } = props;
     console.log("posts", posts)
-
+    console.log("categories", categories)
     return (
         <DashboardLayout>
             <div>
@@ -131,17 +132,7 @@ const PostManage = (props) => {
     );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(async ({ store }) => {
-    console.log(0)
-    store.dispatch({
-        type: typeAction.FETCH_LIST_POST,
-    })
-    store.dispatch(END)
-    console.log(5)
-    await store.startSaga.toPromise()
-    console.log(6)
-
-})
+export {getServerSideProps}
 
 
-export default (connect(({ Admin: { posts } }) => ({ posts }))(PostManage));
+export default (connect(({ Admin: { posts, categories } }) => ({ posts, categories }))(PostManage));

@@ -2,6 +2,7 @@ import { HYDRATE } from "next-redux-wrapper";
 import adminAction from "../../actions/admin";
 const initialState = {
     posts: [],
+    categories: []
 
 };
 
@@ -23,6 +24,17 @@ const reducer = (state = initialState, action) => {
         case adminAction.FETCH_LIST_POST_FAILED: {
             return copyState;
         }
+
+        case adminAction.FETCH_LIST_CATEGORY_SUCCESS: {
+            console.log("2", action.payload.details)
+            copyState.categories = action.payload.details;
+            return copyState;
+        }
+
+        case adminAction.FETCH_LIST_CATEGORY_FAILED: {
+            return copyState;
+        }
+
         default:
             return state;
     }

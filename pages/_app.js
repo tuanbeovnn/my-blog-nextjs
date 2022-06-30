@@ -4,6 +4,7 @@ import wrapper from "../redux/configureStore";
 import '../styles/globals.scss';
 import { GlobalStyles } from '../styles/GlobalStyles';
 import { theme } from "./../utils/constants";
+
 function MyApp({ Component, pageProps }) {
     return (
         <ThemeProvider theme={theme}>
@@ -13,5 +14,4 @@ function MyApp({ Component, pageProps }) {
         </ThemeProvider>
     )
 }
-
 export default wrapper.withRedux(MyApp);

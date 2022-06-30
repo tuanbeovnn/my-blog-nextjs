@@ -9,10 +9,15 @@ import { Dropdown } from "../../components/dropdown";
 import { Field } from "../../components/field";
 import { Input } from "../../components/input";
 import { Label } from "../../components/label";
+import Toggle from "../../components/toggle/Toggle";
 import { postStatus } from "../../utils/constants";
+// import wrapper from "../../redux/configureStore";
+// import typeAction from '../../redux/actions/admin';
+import { END } from "redux-saga";
+import { connect } from "react-redux";
 const PostAddNewStyles = styled.div``;
 
-const PostAddNew = () => {
+const PostAddNew = (props) => {
     const { control, watch, setValue, handleSubmit } = useForm({
         mode: "onChange",
         defaultValues: {
@@ -24,6 +29,7 @@ const PostAddNew = () => {
     });
     const watchStatus = watch("status");
     const watchCategory = watch("category");
+    const watchHot = watch("hot");
     console.log("PostAddNew ~ watchCategory", watchCategory);
     const addPostHandler = async (values) => {
         const cloneValues = { ...values };
@@ -31,11 +37,15 @@ const PostAddNew = () => {
         console.log(cloneValues);
     }
 
-    const handleUploadImage = (e) =>{
+    const handleUploadImage = (e) => {
         console.log(e.target.files);
         const file = e.target.files[0];
-        if(!file) return;
+        if (!file) return;
     }
+
+    const { posts, categories } = props;
+    console.log("posts", posts)
+    console.log("categories", categories)
     return (
         <PostAddNewStyles>
             <h1 className="dashboard-heading">Add new post</h1>
@@ -63,7 +73,7 @@ const PostAddNew = () => {
                 <div className="grid grid-cols-2 gap-x-10 mb-10">
                     <Field>
                         <Label>Image</Label>
-                        <input type="file" name="image" onChange={handleUploadImage}/>
+                        <input type="file" name="image" onChange={handleUploadImage} />
                         {/* <Input
                             control={control}
                             placeholder="Enter your title"
@@ -107,6 +117,14 @@ const PostAddNew = () => {
                         <Label>Author</Label>
                         <Input control={control} placeholder="Find the author"></Input>
                     </Field>
+                    <Field>
+                        <Label>Features</Label>
+                        <Toggle
+                            on={watchHot === true}
+                            onClick={() => setValue("hot", !watchHot)}
+                        ></Toggle>
+                    </Field>
+                  
                 </div>
                 <div className="grid grid-cols-2 gap-x-10 mb-10">
                     <Field>
@@ -119,7 +137,13 @@ const PostAddNew = () => {
                             <Dropdown.Option>Developer</Dropdown.Option>
                         </Dropdown>
                     </Field>
-                    <Field></Field>
+                    {/* <Field>
+                        <Label>Features</Label>
+                        <Toggle
+                            on={watchHot === true}
+                            onClick={() => setValue("hot", !watchHot)}
+                        ></Toggle>
+                    </Field> */}
                 </div>
                 <Button type="submit" className="mx-auto">
                     Add new post
@@ -129,4 +153,5 @@ const PostAddNew = () => {
     );
 };
 
-export default PostAddNew;
+export default (connect(({ Admin: { posts, categories } }) => ({ posts, categories }))(PostAddNew));
+
