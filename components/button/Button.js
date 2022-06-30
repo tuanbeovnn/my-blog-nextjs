@@ -1,8 +1,7 @@
-import React from "react";
-import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
+import styled, { css } from "styled-components";
 import { LoadingSpinner } from "../loading";
-import Link from "next/link";
+import { NavLink } from "../navlink/NavLink";
 
 const ButtonStyles = styled.button`
   cursor: pointer;
@@ -54,11 +53,11 @@ const Button = ({
   const child = !!isLoading ? <LoadingSpinner></LoadingSpinner> : children;
   if (to !== "" && typeof to === "string") {
     return (
-      <Link href={to} className="inline-block">
+      <NavLink href={to} className="inline-block">
         <ButtonStyles type={type} kind={kind} {...props}>
           {child}
         </ButtonStyles>
-      </Link>
+      </NavLink>
     );
   }
   return (

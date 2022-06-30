@@ -1,5 +1,4 @@
 
-import React from "react";
 import { useForm } from "react-hook-form";
 import slugify from "slugify";
 import styled from "styled-components";
@@ -13,7 +12,6 @@ import Toggle from "../../components/toggle/Toggle";
 import { postStatus } from "../../utils/constants";
 // import wrapper from "../../redux/configureStore";
 // import typeAction from '../../redux/actions/admin';
-import { END } from "redux-saga";
 import { connect } from "react-redux";
 const PostAddNewStyles = styled.div``;
 
