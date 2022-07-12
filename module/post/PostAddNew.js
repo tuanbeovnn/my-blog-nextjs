@@ -14,10 +14,14 @@ import { postStatus } from "../../utils/constants";
 // import typeAction from '../../redux/actions/admin';
 import { connect } from "react-redux";
 import ImageUpload from "../../components/image/ImageUpload";
+import { useState } from "react";
 const PostAddNewStyles = styled.div``;
 
 const PostAddNew = (props) => {
-    const { control, watch, setValue, handleSubmit } = useForm({
+
+    const [selectCategory, setSelectCategory] = useState("");
+
+    const { control, watch, setValue, handleSubmit, getValues, reset } = useForm({
         mode: "onChange",
         defaultValues: {
             title: "",
@@ -29,10 +33,10 @@ const PostAddNew = (props) => {
     const watchStatus = watch("status");
     const watchCategory = watch("category");
     const watchHot = watch("hot");
-    console.log("PostAddNew ~ watchCategory", watchCategory);
+    // console.log("PostAddNew ~ watchCategory", watchCategory);
     const addPostHandler = async (values) => {
         const cloneValues = { ...values };
-        cloneValues.slug = slugify(values.slug || values.title);
+        cloneValues.slug = slugify(values.slug || values.title, { lower: true });
         console.log(cloneValues);
     }
 
@@ -40,7 +44,6 @@ const PostAddNew = (props) => {
 
     }
     const onSelectImage = (e) => {
-        console.log(e.target.files);
         const file = e.target.files[0];
         if (!file) return;
         // setValue()
@@ -50,9 +53,14 @@ const PostAddNew = (props) => {
 
     }
 
+    const handleClickOption = (item) => {
+        setValue("code", item.code);
+        console.log("category", item)
+        setSelectCategory(item)
+    }
+
+
     const { posts, categories } = props;
-    console.log("posts", posts)
-    console.log("categories", categories)
     return (
         <PostAddNewStyles>
             <h1 className="dashboard-heading">Add new post</h1>
@@ -79,13 +87,12 @@ const PostAddNew = (props) => {
                 </div>
                 <div className="grid grid-cols-2 gap-x-10 mb-10">
                     <Field>
-                        <Label>Image</Label>
-                        <ImageUpload
-                            onChange={onSelectImage}
-                        //  progress={}
-                        >
+                        <Label>Features</Label>
+                        <Toggle
+                            on={watchHot === true}
+                            onClick={() => setValue("hot", !watchHot)}
+                        ></Toggle>
 
-                        </ImageUpload>
                     </Field>
                     <Field>
                         <Label>Status</Label>
@@ -124,24 +131,35 @@ const PostAddNew = (props) => {
                         <Input control={control} placeholder="Find the author"></Input>
                     </Field>
                     <Field>
-                        <Label>Features</Label>
-                        <Toggle
-                            on={watchHot === true}
-                            onClick={() => setValue("hot", !watchHot)}
-                        ></Toggle>
+                        <Label>Category</Label>
+                        <Dropdown>
+                            <Dropdown.Select placeholder="Select the category"></Dropdown.Select>
+                            <Dropdown.List>
+                                {categories.length > 0 && categories.map((item) => (
+                                    <Dropdown.Option key={item.code} onClick={() => handleClickOption(item)}>{item.name}</Dropdown.Option>
+                                ))}
+                            </Dropdown.List>
+
+                        </Dropdown>
+                        {selectCategory?.name && (
+                            <span className="inline-block p-4 rounded-lg bg-green-400 text-sm text-green-600 font-medium">
+                                {selectCategory.name}
+                            </span>
+                        )}
+
+
                     </Field>
 
                 </div>
                 <div className="grid grid-cols-2 gap-x-10 mb-10">
                     <Field>
-                        <Label>Category</Label>
-                        <Dropdown>
-                            <Dropdown.Option>Knowledge</Dropdown.Option>
-                            <Dropdown.Option>Blockchain</Dropdown.Option>
-                            <Dropdown.Option>Setup</Dropdown.Option>
-                            <Dropdown.Option>Nature</Dropdown.Option>
-                            <Dropdown.Option>Developer</Dropdown.Option>
-                        </Dropdown>
+                        <Label>Image</Label>
+                        <ImageUpload
+                            onChange={onSelectImage}
+                        //  progress={}
+                        >
+
+                        </ImageUpload>
                     </Field>
                     {/* <Field>
                         <Label>Features</Label>
