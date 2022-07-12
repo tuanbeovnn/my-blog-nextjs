@@ -13,6 +13,7 @@ import { postStatus } from "../../utils/constants";
 // import wrapper from "../../redux/configureStore";
 // import typeAction from '../../redux/actions/admin';
 import { connect } from "react-redux";
+import ImageUpload from "../../components/image/ImageUpload";
 const PostAddNewStyles = styled.div``;
 
 const PostAddNew = (props) => {
@@ -35,10 +36,18 @@ const PostAddNew = (props) => {
         console.log(cloneValues);
     }
 
-    const handleUploadImage = (e) => {
+    const handleUploadImage = (file) => {
+
+    }
+    const onSelectImage = (e) => {
         console.log(e.target.files);
         const file = e.target.files[0];
         if (!file) return;
+        // setValue()
+    }
+
+    const handleDeleteImg = () => {
+
     }
 
     const { posts, categories } = props;
@@ -71,13 +80,12 @@ const PostAddNew = (props) => {
                 <div className="grid grid-cols-2 gap-x-10 mb-10">
                     <Field>
                         <Label>Image</Label>
-                        <input type="file" name="image" onChange={handleUploadImage} />
-                        {/* <Input
-                            control={control}
-                            placeholder="Enter your title"
-                            name="title"
-                            required
-                        ></Input> */}
+                        <ImageUpload
+                            onChange={onSelectImage}
+                        //  progress={}
+                        >
+
+                        </ImageUpload>
                     </Field>
                     <Field>
                         <Label>Status</Label>
@@ -122,7 +130,7 @@ const PostAddNew = (props) => {
                             onClick={() => setValue("hot", !watchHot)}
                         ></Toggle>
                     </Field>
-                  
+
                 </div>
                 <div className="grid grid-cols-2 gap-x-10 mb-10">
                     <Field>

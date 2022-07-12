@@ -2,7 +2,7 @@ import axios from 'axios';
 import jwt_decode from "jwt-decode";
 
 
-export const API_ENDPOINT = 'http://bienhoa.ga:8080/api'
+export const API_ENDPOINT = 'http://bienhoa.ga:8080/v1/api'
 // export const API_ENDPOINT = 'http://localhost:8080/api'
 class AxiosServer {
 
