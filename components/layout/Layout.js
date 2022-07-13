@@ -1,13 +1,22 @@
 import React, { Fragment } from "react";
+import { connect } from "react-redux";
+import adminAction from "../../redux/actions/admin";
 import Header from "./Header";
+const Layout = ({ children, dispatch, isHiddenHeader }) => {
 
-const Layout = ({ children }) => {
+    React.useEffect(() => {
+        dispatch({
+            type: adminAction.USER_INIT
+        })
+    }, []);
+
     return (
         <Fragment>
-            <Header></Header>
+            {!isHiddenHeader && <Header />}
             {children}
         </Fragment>
     );
 };
 
-export default Layout;
+
+export default (connect(() => ({}))(Layout));

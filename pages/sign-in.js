@@ -1,19 +1,23 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Input } from '../components/input';
-import { Label } from '../components/label';
 import { useForm } from "react-hook-form";
+import styled from 'styled-components';
+import { Button } from '../components/button';
 import { Field } from '../components/field';
 import { IconEyeClose, IconEyeOpen } from '../components/icon';
-import { Button } from '../components/button';
+import { Input } from '../components/input';
+import { Label } from '../components/label';
 
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { toast } from 'react-toastify';
 import Link from 'next/link';
+import { connect, useDispatch } from "react-redux";
+import { toast } from 'react-toastify';
+import * as yup from "yup";
 import InputPasswordToggle from '../components/input/InputPasswordToggle';
-import { useDispatch } from 'react-redux';
-// import appAction from '../redux/actions/app';
+import { getServerSideProps } from "./../utils/getServerSideProps";
+// import typeAction from '../redux/actions/admin/AdminAction';
+import Router from 'next/router';
+import Layout from '../components/layout/Layout';
+import adminAction from '../redux/actions/admin';
 
 const SignInPageStyled = styled.div`
     min-height: 100vh;
@@ -55,18 +59,23 @@ const schema = yup.object({
 });
 
 
-const SignInPage = () => {
+const SignInPage = (props) => {
     const { control, handleSubmit, formState: { errors, isSubmitting, isValid }, watch, reset } = useForm({ mode: "onChange", resolver: yupResolver(schema) });
     const [togglePassword, setTogglePassword] = React.useState(false);
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const handleSignUp = (values) => {
+        console.log(values);
         if (!isValid) return; // kiem tra form isValid
-        // dispatch({type: appAction.LOG_IN, payload: values, callback: res =>{
-        //     if(res?.success){
-        //         toast.success("Login Successfully")
-        //     }
-        // }})
-        console.log(values)
+
+        dispatch({
+            type: adminAction.LOGIN, payload: values, callback: res => {
+
+                if (res?.success) {
+                    toast.success("Login Successfully")
+                }
+            }
+        })
+
     }
 
     React.useEffect(() => {
@@ -75,48 +84,71 @@ const SignInPage = () => {
             toast.error(arrErrors[0]?.message, { pauseOnHover: false, delay: 0 });
         }
     }, [])
-    return (
-        <SignInPageStyled>
-            <div className='container'>
-                <Link href={"/"}>
-                    <img srcSet="/logo.png 2x" alt="monkey-blogging" className="logo" />
-                </Link>
-                <h1 className='heading'> Monkey Blog</h1>
-                <form className='form' onSubmit={handleSubmit(handleSignUp)} autoComplete="off">
-                    <Field>
-                        <Label htmlFor='email'>
-                            Email
-                        </Label>
-                        <Input
-                            type="email"
-                            name="email"
-                            placeholder="Enter your email"
-                            control={control}
-                        />
-                    </Field>
-                    <Field>
-                        <Label htmlFor='password'>
-                            Password
-                        </Label>
-                        <InputPasswordToggle control={control}>
-                            {!togglePassword ? <IconEyeClose onClick={() => setTogglePassword(true)}></IconEyeClose> : <IconEyeOpen onClick={() => setTogglePassword(false)}></IconEyeOpen>}
 
-                        </InputPasswordToggle>
-                    </Field>
-                    <div className="have-account">
-                        Do you have an account?{" "}
-                        <Link href={"/sign-up"}>Register an account</Link>{" "}
-                    </div>
-                    <Button type='submit' style={{
-                        width: "100%",
-                        maxWidth: 300,
-                        margin: "0 auto",
-                    }} isLoading={isSubmitting}
-                        disabled={isSubmitting}>Sign In</Button>
-                </form>
-            </div>
-        </SignInPageStyled>
+    const { user, store } = props;
+    console.log("user", user, store);
+
+    React.useEffect(() => {
+        console.log(user);
+        if (user?.id) {
+
+            Router.push('/')
+        }
+    }, [user])
+
+
+
+    return (
+
+        <Layout isHiddenHeader={true}>
+
+            <SignInPageStyled>
+                <div className='container'>
+                    <Link href={"/"}>
+                        <img srcSet="/logo.png 2x" alt="monkey-blogging" className="logo" />
+                    </Link>
+                    <h1 className='heading'> Monkey Blog</h1>
+                    <form className='form' onSubmit={handleSubmit(handleSignUp)} autoComplete="off">
+                        <Field>
+                            <Label htmlFor='email'>
+                                Email
+                            </Label>
+                            <Input
+                                type="email"
+                                name="email"
+                                placeholder="Enter your email"
+                                control={control}
+                            />
+                        </Field>
+                        <Field>
+                            <Label htmlFor='password'>
+                                Password
+                            </Label>
+                            <InputPasswordToggle control={control}>
+                                {!togglePassword ? <IconEyeClose onClick={() => setTogglePassword(true)}></IconEyeClose> : <IconEyeOpen onClick={() => setTogglePassword(false)}></IconEyeOpen>}
+
+                            </InputPasswordToggle>
+                        </Field>
+                        <div className="have-account">
+                            Do you have an account?{" "}
+                            <Link href={"/sign-up"}>Register an account</Link>{" "}
+                        </div>
+                        <Button type='submit' style={{
+                            width: "100%",
+                            maxWidth: 300,
+                            margin: "0 auto",
+                        }} isLoading={isSubmitting}
+                            disabled={isSubmitting}>Sign In</Button>
+                    </form>
+                </div>
+            </SignInPageStyled>
+        </Layout>
+
     );
 };
 
-export default SignInPage;
+
+export { getServerSideProps };
+
+
+export default connect((store) => ({ categories: store.Admin.categories, user: store.Admin.user, store }))(SignInPage);

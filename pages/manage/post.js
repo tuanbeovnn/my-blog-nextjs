@@ -1,12 +1,8 @@
-import React from "react";
+import { connect } from "react-redux";
 import { Pagination } from "../../components/pagination";
 import { Table } from "../../components/table";
 import DashboardLayout from "../../module/dashboard/DashboardLayout";
-import wrapper from "../../redux/configureStore";
-import typeAction from '../../redux/actions/admin';
-import { END } from "redux-saga";
-import { connect } from "react-redux";
-import {getServerSideProps} from "./../../utils/getServerSideProps";
+import { getServerSideProps } from "./../../utils/getServerSideProps";
 
 
 
@@ -132,7 +128,7 @@ const PostManage = (props) => {
     );
 };
 
-export {getServerSideProps}
+export { getServerSideProps };
 
 
 export default (connect(({ Admin: { posts, categories } }) => ({ posts, categories }))(PostManage));
