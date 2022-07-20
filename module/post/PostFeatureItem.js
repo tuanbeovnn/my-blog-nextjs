@@ -1,4 +1,5 @@
-import React from "react";
+import Link from "next/link";
+import { connect } from "react-redux";
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
 import PostImage from "./PostImage";
@@ -49,25 +50,47 @@ const PostFeatureItemStyles = styled.div`
     }
   }
 `;
-const PostFeatureItem = () => {
-  return (
-    <PostFeatureItemStyles>
-      <PostImage
-        url="https://images.unsplash.com/photo-1614624532983-4ce03382d63d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2662&q=80"
-        alt="unsplash"
-      ></PostImage>
-      <div className="post-overlay"></div>
-      <div className="post-content">
-        <div className="post-top">
-          <PostCategory>Kiến thức</PostCategory>
-          <PostMeta></PostMeta>
-        </div>
-        <PostTitle size="big">
-          Hướng dẫn setup phòng cực chill dành cho người mới toàn tập
-        </PostTitle>
-      </div>
-    </PostFeatureItemStyles>
-  );
+const PostFeatureItem = ({ item }) => {
+
+    if (!item || !item.id) return null;
+    // program to convert first letter of a string to uppercase
+    const capitalizeFirstLetter = (str) => {
+        // converting first letter to uppercase
+        return str.charAt(0).toUpperCase() + str.slice(1);;
+    }
+
+    const dateToYMD = (date) => {
+        var strArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var d = date.getDate();
+        var m = strArray[date.getMonth()];
+        var y = date.getFullYear();
+        return '' + (d <= 9 ? '0' + d : d) + ' ' + m;
+    }
+    const { category } = item;
+
+    return (
+        <PostFeatureItemStyles>
+            <PostImage
+                url={item.thumnail}
+                alt="unsplash"
+            ></PostImage>
+            <div className="post-overlay"></div>
+            <div className="post-content">
+                <div className="post-top">
+                    {category?.id && <PostCategory>{capitalizeFirstLetter(category?.name.toLowerCase())}</PostCategory>}
+                    <PostMeta authorName={capitalizeFirstLetter(item.createdBy)} date={dateToYMD(new Date(item.createdDate)) || ''}></PostMeta>
+                </div>
+                <Link href={`/post/${item.id}`}>
+                    <a>
+                        <PostTitle size="big">
+                            {item.title}
+                        </PostTitle>
+                    </a>
+                </Link>
+            </div>
+        </PostFeatureItemStyles>
+    );
 };
 
-export default PostFeatureItem;
+
+export default (connect(({ Admin: { posts, categories } }) => ({ posts, categories }))(PostFeatureItem));

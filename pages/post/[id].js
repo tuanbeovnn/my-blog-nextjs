@@ -1,4 +1,5 @@
-import React from 'react';
+import { useRouter } from 'next/router';
+import { connect } from "react-redux";
 import styled from "styled-components";
 import Heading from '../../components/layout/Heading';
 import Layout from '../../components/layout/Layout';
@@ -6,7 +7,9 @@ import PostCategory from '../../module/post/PostCategory';
 import PostImage from '../../module/post/PostImage';
 import PostItem from '../../module/post/PostItem';
 import PostMeta from '../../module/post/PostMeta';
-
+import wrapper from "../../redux/configureStore";
+import { AxiosService } from '../../utils';
+import NotFoundPage from '../404';
 const PostDetailsPageStyles = styled.div`
   padding-bottom: 100px;
   .post {
@@ -94,7 +97,13 @@ const PostDetailsPageStyles = styled.div`
   }
 `;
 
-const PostDetailsPage = () => {
+const PostDetailsPage = (props) => {
+
+    const router = useRouter()
+    const { post } = props;
+    if (!post && !post?.id) return <NotFoundPage/>;
+    console.log(post)
+
     return (
         <PostDetailsPageStyles>
             <Layout>
@@ -218,4 +227,25 @@ const PostDetailsPage = () => {
     );
 };
 
-export default PostDetailsPage;
+
+export const getServerSideProps = wrapper.getServerSideProps(async ({ store, ...props }) => {
+
+    try {
+        const res = await AxiosService.get(`/posts/${props.query.id}`);
+        return {
+            props: {
+                id: props.query?.id,
+                post: res.data.details
+            }, // will be passed to the page component as props
+        }
+    } catch (e) {
+        return {
+            props: {
+                id: props.query?.id,
+            }
+        }
+    }
+})
+
+
+export default connect((store) => ({ postDetails: store.Admin.postDetails, user: store.Admin.user, store }))(PostDetailsPage);

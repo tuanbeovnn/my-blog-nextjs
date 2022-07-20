@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import adminAction from "../../redux/actions/admin";
 import Header from "./Header";
+import { ToastContainer, toast } from 'react-toastify';
 const Layout = ({ children, dispatch, isHiddenHeader }) => {
 
     React.useEffect(() => {
@@ -11,10 +12,13 @@ const Layout = ({ children, dispatch, isHiddenHeader }) => {
     }, []);
 
     return (
-        <Fragment>
-            {!isHiddenHeader && <Header />}
-            {children}
-        </Fragment>
+        
+            <Fragment>
+                <ToastContainer/>
+                {!isHiddenHeader && <Header />}
+                {children}
+            </Fragment>
+
     );
 };
 

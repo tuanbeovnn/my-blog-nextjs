@@ -15,20 +15,20 @@ const ButtonStyles = styled.button`
   justify-content: center;
   align-items: center;
   ${(props) =>
-    props.kind === "secondary" &&
-    css`
+        props.kind === "secondary" &&
+        css`
       color: ${(props) => props.theme.primary};
       background-color: white;
     `};
   ${(props) =>
-    props.kind === "primary" &&
-    css`
+        props.kind === "primary" &&
+        css`
       color: white;
       background-color: ${(props) => props.theme.primary};
     `};
   ${(props) =>
-    props.kind === "ghost" &&
-    css`
+        props.kind === "ghost" &&
+        css`
       color: ${(props) => props.theme.primary};
       background-color: rgba(29, 192, 113, 0.1);
     `};
@@ -43,36 +43,37 @@ const ButtonStyles = styled.button`
  * @param {string} type Type of button 'button' | 'submit'
  */
 const Button = ({
-  type = "button",
-  onClick = () => {},
-  children,
-  kind = "primary",
-  ...props
+    type = "button",
+    onClick = () => { },
+    children,
+    kind = "primary",
+    ...props
 }) => {
-  const { isLoading, to } = props;
-  const child = !!isLoading ? <LoadingSpinner></LoadingSpinner> : children;
-  if (to !== "" && typeof to === "string") {
+    const { isLoading, to } = props;
+    const child = !!isLoading ? <LoadingSpinner></LoadingSpinner> : children;
+    if (to !== "" && typeof to === "string") {
+        return (
+            <NavLink href={to} className="inline-block">
+                <ButtonStyles type={type} kind={kind} {...props}>
+                    {child}
+                </ButtonStyles>
+            </NavLink>
+        );
+    }
     return (
-      <NavLink href={to} className="inline-block">
-        <ButtonStyles type={type} kind={kind} {...props}>
-          {child}
+        <ButtonStyles type={type} kind={kind} onClick={onClick} {...props}>
+            {child}
         </ButtonStyles>
-      </NavLink>
     );
-  }
-  return (
-    <ButtonStyles type={type} kind={kind} onClick={onClick} {...props}>
-      {child}
-    </ButtonStyles>
-  );
 };
 
 Button.propTypes = {
-  type: PropTypes.oneOf(["button", "submit"]),
-  isLoading: PropTypes.bool,
-  onClick: PropTypes.func,
-  children: PropTypes.node,
-  kind: PropTypes.oneOf(["primary", "secondary", "ghost"]),
+    to: PropTypes.string,
+    type: PropTypes.oneOf(["button", "submit"]),
+    isLoading: PropTypes.bool,
+    onClick: PropTypes.func,
+    children: PropTypes.node,
+    kind: PropTypes.oneOf(["primary", "secondary", "ghost"]),
 };
 
 export default Button;

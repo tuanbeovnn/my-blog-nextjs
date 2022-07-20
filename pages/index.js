@@ -1,13 +1,16 @@
 import { useForm } from 'react-hook-form'
+import { connect } from "react-redux"
 import styled from "styled-components"
 import Layout from '../components/layout/Layout'
 import HomeBanner from '../module/home/HomeBanner'
 import HomeFeature from '../module/home/HomeFeature'
 import HomeNewest from '../module/home/HomeNewest'
+import { getServerSideProps } from "./../utils/getServerSideProps"
 const HomePageStyled = styled.div`
 
 `
-export default function Home() {
+
+const Home = () => {
     const { control, watch, setValue } = useForm({
         mode: "onChange",
         defaultValues: {
@@ -17,14 +20,18 @@ export default function Home() {
     });
     const watchStatus = watch("status");
     const watchCategory = watch("category");
-    console.log("PostAddNew ~ watchCategory", watchCategory);
     return (
         <HomePageStyled>
-            <Layout>
-                <HomeBanner></HomeBanner>
-                <HomeFeature></HomeFeature>
-                <HomeNewest></HomeNewest>
-            </Layout>
-        </HomePageStyled>
-    )
-}
+        <Layout>
+            <HomeBanner></HomeBanner>
+            <HomeFeature></HomeFeature>
+            <HomeNewest></HomeNewest>
+        </Layout>
+    </HomePageStyled>
+    );
+};
+
+export { getServerSideProps };
+export default connect((store) => ({ categories: store.Admin.categories, user: store.Admin.user, store }))(Home);
+
+// export default (Home);

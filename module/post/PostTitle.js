@@ -1,24 +1,25 @@
-import Link from "next/link";
-import React from "react";
 import styled, { css } from "styled-components";
 const PostTitleStyles = styled.h3`
   font-weight: 600;
   line-height: 1.5;
   letter-spacing: 0.25px;
+  &:hover {
+    text-decoration: underline ;
+  }
   a {
     display: block;
   }
   ${(props) =>
-    props.size === "normal" &&
-    css`
+        props.size === "normal" &&
+        css`
       font-size: 18px;
       @media screen and (max-width: 1023.98px) {
         font-size: 14px;
       }
     `};
   ${(props) =>
-    props.size === "big" &&
-    css`
+        props.size === "big" &&
+        css`
       font-size: 22px;
       @media screen and (max-width: 1023.98px) {
         font-size: 16px;
@@ -26,12 +27,12 @@ const PostTitleStyles = styled.h3`
     `};
 `;
 
-const PostTitle = ({ children, className = "", size = "normal", to = "/" }) => {
-  return (
-    <PostTitleStyles size={size} className={`post-title ${className}`}>
-      <Link href={to}>{children}</Link>
-    </PostTitleStyles>
-  );
+const PostTitle = ({ children, className = "", size = "normal" }) => {
+    return (
+        <PostTitleStyles size={size} className={`post-title ${className}`}>
+            {children}
+        </PostTitleStyles>
+    );
 };
 
 export default PostTitle;

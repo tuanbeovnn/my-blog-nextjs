@@ -59,18 +59,17 @@ const SignUpPage = () => {
     const { control, handleSubmit, formState: { errors, isSubmitting, isValid }, watch, reset } = useForm({ mode: "onChange", resolver: yupResolver(schema) });
     const [togglePassword, setTogglePassword] = React.useState(false);
     const handleSignUp = (values) => {
-        console.log(values)
         if (!isValid) return; // kiem tra form isValid
-
-        console.log(values)
     }
 
     React.useEffect(() => {
+        document.title = "Registert Page"
         const arrErrors = Object.values(errors);
         if (arrErrors.length > 0) {
             toast.error(arrErrors[0]?.message, { pauseOnHover: false, delay: 0 });
         }
     })
+
     return (
         <SignUpPageStyled>
             <div className='container'>

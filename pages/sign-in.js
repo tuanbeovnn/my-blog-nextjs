@@ -18,6 +18,8 @@ import { getServerSideProps } from "./../utils/getServerSideProps";
 import Router from 'next/router';
 import Layout from '../components/layout/Layout';
 import adminAction from '../redux/actions/admin';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const SignInPageStyled = styled.div`
     min-height: 100vh;
@@ -64,9 +66,7 @@ const SignInPage = (props) => {
     const [togglePassword, setTogglePassword] = React.useState(false);
     const dispatch = useDispatch();
     const handleSignUp = (values) => {
-        console.log(values);
         if (!isValid) return; // kiem tra form isValid
-
         dispatch({
             type: adminAction.LOGIN, payload: values, callback: res => {
 
@@ -85,13 +85,12 @@ const SignInPage = (props) => {
         }
     }, [])
 
-    const { user, store } = props;
-    console.log("user", user, store);
+    const { user } = props;
+
 
     React.useEffect(() => {
-        console.log(user);
+        document.title = "Login Page"
         if (user?.id) {
-
             Router.push('/')
         }
     }, [user])

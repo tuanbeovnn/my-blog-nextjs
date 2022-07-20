@@ -46,24 +46,37 @@ const PostNewestItemStyles = styled.div`
     }
   }
 `;
-const PostNewestItem = () => {
-  return (
-    <PostNewestItemStyles>
-      <PostImage
-        url="https://images.unsplash.com/photo-1510519138101-570d1dca3d66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2294&q=80"
-        alt=""
-        to="/"
-      ></PostImage>
+const PostNewestItem = ({ item }) => {
+    if (!item || !item.id) return null;
+    const capitalizeFirstLetter = (str) => {
+        // converting first letter to uppercase
+        return str.charAt(0).toUpperCase() + str.slice(1);;
+    }
+    const dateToYMD = (date) => {
+        var strArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var d = date.getDate();
+        var m = strArray[date.getMonth()];
+        var y = date.getFullYear();
+        return '' + (d <= 9 ? '0' + d : d) + ' ' + m;
+    }
+    const { category } = item;
+    return (
+        <PostNewestItemStyles>
+            <PostImage
+                url={item.thumnail}
+                alt=""
+                to="/"
+            ></PostImage>
 
-      <div className="post-content">
-        <PostCategory type="secondary">Kiến thức</PostCategory>
-        <PostTitle>
-          Hướng dẫn setup phòng cực chill dành cho người mới toàn tập
-        </PostTitle>
-        <PostMeta></PostMeta>
-      </div>
-    </PostNewestItemStyles>
-  );
+            <div className="post-content">
+                {category?.id && <PostCategory>{capitalizeFirstLetter(category?.name.toLowerCase())}</PostCategory>}
+                <PostTitle>
+                    {item.title}
+                </PostTitle>
+                <PostMeta authorName={capitalizeFirstLetter(item.createdBy)} date={dateToYMD(new Date(item.createdDate)) || ''}></PostMeta>
+            </div>
+        </PostNewestItemStyles>
+    );
 };
 
 export default PostNewestItem;

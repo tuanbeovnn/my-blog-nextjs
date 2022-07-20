@@ -1,19 +1,20 @@
 import Link from "next/link";
 import styled from "styled-components";
 import { Button } from "../button";
+import { connect } from "react-redux";
 const menuLinks = [
-  {
-    url: "/",
-    title: "Home",
-  },
-  {
-    url: "/blog",
-    title: "Blog",
-  },
-  {
-    url: "/contact",
-    title: "Contact",
-  },
+    {
+        url: "/",
+        title: "Home",
+    },
+    {
+        url: "/blog",
+        title: "Blog",
+    },
+    {
+        url: "/contact",
+        title: "Contact",
+    },
 ];
 
 const HeaderStyles = styled.header`
@@ -75,84 +76,88 @@ const HeaderStyles = styled.header`
     }
   }
 `;
-const Header = () => {
-  return (
-    <HeaderStyles>
-      <div className="container">
-        <div className="header-main">
-          <Link href="/">
-            <img srcSet="/logo.png 2x" alt="monkey-blogging" className="logo" />
-          </Link>
-          <ul className="menu">
-            {menuLinks.map((item) => (
-              <li className="menu-item" key={item.title}>
-                <Link href={item.url} className="menu-link">
-                  {item.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <div className="search">
-            <input
-              type="text"
-              className="search-input"
-              placeholder="Search posts..."
-            />
-            <span className="search-icon">
-              <svg
-                width="18"
-                height="17"
-                viewBox="0 0 18 17"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <ellipse
-                  cx="7.66669"
-                  cy="7.05161"
-                  rx="6.66669"
-                  ry="6.05161"
-                  stroke="#999999"
-                  strokeWidth="1.5"
-                />
-                <path
-                  d="M17.0001 15.5237L15.2223 13.9099L14.3334 13.103L12.5557 11.4893"
-                  stroke="#999999"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M11.6665 12.2964C12.9671 12.1544 13.3706 11.8067 13.4443 10.6826"
-                  stroke="#999999"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </span>
-          </div>
-         
-            <Button
-              type="button"
-              height="56px"
-              className="header-button"
-              to="/sign-in"
-            >
-              Login
-            </Button>
-        
-            {/* <div className="header-auth">
-              <Button
-                type="button"
-                height="56px"
-                className="header-button"
-                to="/dashboard"
-              >
-                Dashboard
-              </Button>
-            </div> */}
-        </div>
-      </div>
-    </HeaderStyles>
-  );
+const Header = (props) => {
+
+    const { user } = props;
+    return (
+        <HeaderStyles>
+            <div className="container">
+                <div className="header-main">
+                    <Link href="/">
+                        <img srcSet="/logo.png 2x" alt="monkey-blogging" className="logo" />
+                    </Link>
+                    <ul className="menu">
+                        {menuLinks.map((item) => (
+                            <li className="menu-item" key={item.title}>
+                                <Link href={item.url} className="menu-link">
+                                    {item.title}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                    <div className="search">
+                        <input
+                            type="text"
+                            className="search-input"
+                            placeholder="Search posts..."
+                        />
+                        <span className="search-icon">
+                            <svg
+                                width="18"
+                                height="17"
+                                viewBox="0 0 18 17"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <ellipse
+                                    cx="7.66669"
+                                    cy="7.05161"
+                                    rx="6.66669"
+                                    ry="6.05161"
+                                    stroke="#999999"
+                                    strokeWidth="1.5"
+                                />
+                                <path
+                                    d="M17.0001 15.5237L15.2223 13.9099L14.3334 13.103L12.5557 11.4893"
+                                    stroke="#999999"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                />
+                                <path
+                                    d="M11.6665 12.2964C12.9671 12.1544 13.3706 11.8067 13.4443 10.6826"
+                                    stroke="#999999"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                />
+                            </svg>
+                        </span>
+                    </div>
+                    {!user?.id ? (
+                        <Button
+                            type="button"
+                            height="56px"
+                            className="header-button"
+                            to="/sign-in"
+                        >
+                            Login
+                        </Button>
+                    ) : (
+                        <div className="header-auth">
+                            <Button
+                                type="button"
+                                height="56px"
+                                className="header-button"
+                                to="/admin/dash-board"
+                            >
+                                Dashboard
+                            </Button>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </HeaderStyles>
+    );
 };
 
-export default Header;
+
+export default connect((store) => ({user: store.Admin.user, store }))(Header);

@@ -5,7 +5,7 @@ import Heading from "../../components/layout/Heading";
 import PostItem from "../post/PostItem";
 import PostNewestItem from "../post/PostNewestItem";
 import PostNewestLarge from "../post/PostNewestLarge";
-
+import { connect } from "react-redux";
 const HomeNewestStyles = styled.div`
   .layout {
     display: grid;
@@ -29,28 +29,35 @@ const HomeNewestStyles = styled.div`
   }
 `;
 
-const HomeNewest = () => {
-  return (
-    <HomeNewestStyles className="home-block">
-      <div className="container">
-        <Heading>Mới nhất</Heading>
-        <div className="layout">
-          <PostNewestLarge></PostNewestLarge>
-          <div className="sidebar">
-            <PostNewestItem></PostNewestItem>
-            <PostNewestItem></PostNewestItem>
-            <PostNewestItem></PostNewestItem>
-          </div>
-        </div>
-        <div className="grid-layout grid-layout--primary">
-          <PostItem></PostItem>
-          <PostItem></PostItem>
-          <PostItem></PostItem>
-          <PostItem></PostItem>
-        </div>
-      </div>
-    </HomeNewestStyles>
-  );
+const HomeNewest = (props) => {
+
+    const { newposts, newpostsRemaining } = props;
+    const [firstPost, ...posts] = newposts;
+
+    return (
+        <HomeNewestStyles className="home-block">
+            <div className="container">
+                <Heading>Newest</Heading>
+                <div className="layout">
+                    <PostNewestLarge item={firstPost}></PostNewestLarge>
+                    <div className="sidebar">
+                        {posts.map((item) => {
+                            return (
+                                <PostNewestItem key={item.id} item={item}></PostNewestItem>
+                            )
+                        })}
+                    </div>
+                </div>
+                <div className="grid-layout grid-layout--primary">
+                    {newpostsRemaining && newpostsRemaining.map((item) => {
+                        return (
+                            <PostItem key={item.id} item={item}></PostItem>
+                        )
+                    })}
+                </div>
+            </div>
+        </HomeNewestStyles>
+    );
 };
 
-export default HomeNewest;
+export default (connect(({ Admin: { newposts, trendingposts, newpostsRemaining } }) => ({ newposts, trendingposts, newpostsRemaining }))(HomeNewest));

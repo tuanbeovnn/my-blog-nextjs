@@ -12,14 +12,20 @@ import Toggle from "../../components/toggle/Toggle";
 import { postStatus } from "../../utils/constants";
 // import wrapper from "../../redux/configureStore";
 // import typeAction from '../../redux/actions/admin';
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import ImageUpload from "../../components/image/ImageUpload";
-import { useState } from "react";
+import ReactQuill from "react-quill";
+
+
+
 const PostAddNewStyles = styled.div``;
 
 const PostAddNew = (props) => {
 
     const [selectCategory, setSelectCategory] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [content, setContent] = useState("");
 
     const { control, watch, setValue, handleSubmit, getValues, reset } = useForm({
         mode: "onChange",
@@ -33,11 +39,11 @@ const PostAddNew = (props) => {
     const watchStatus = watch("status");
     const watchCategory = watch("category");
     const watchHot = watch("hot");
-    // console.log("PostAddNew ~ watchCategory", watchCategory);
+
     const addPostHandler = async (values) => {
+        setLoading(true);
         const cloneValues = { ...values };
         cloneValues.slug = slugify(values.slug || values.title, { lower: true });
-        console.log(cloneValues);
     }
 
     const handleUploadImage = (file) => {
@@ -55,9 +61,12 @@ const PostAddNew = (props) => {
 
     const handleClickOption = (item) => {
         setValue("code", item.code);
-        console.log("category", item)
         setSelectCategory(item)
     }
+
+    // useEffect(() => {
+    //     document.title = "Monley Blogging - Add new post";
+    // }, [])
 
 
     const { posts, categories } = props;
@@ -142,7 +151,7 @@ const PostAddNew = (props) => {
 
                         </Dropdown>
                         {selectCategory?.name && (
-                            <span className="inline-block p-4 rounded-lg bg-green-400 text-sm text-green-600 font-medium">
+                            <span className="inline-block p-4 rounded-lg bg-green-200 text-sm text-green-600 font-medium">
                                 {selectCategory.name}
                             </span>
                         )}
@@ -161,15 +170,18 @@ const PostAddNew = (props) => {
 
                         </ImageUpload>
                     </Field>
-                    {/* <Field>
-                        <Label>Features</Label>
-                        <Toggle
-                            on={watchHot === true}
-                            onClick={() => setValue("hot", !watchHot)}
-                        ></Toggle>
-                    </Field> */}
+
                 </div>
-                <Button type="submit" className="mx-auto">
+                <div className="grid grid-cols-1 gap-x-10 mb-10">
+
+                    <Field>
+                        <Label>Contents</Label>
+                        <div className="w-full">
+                            <ReactQuill theme="snow" value={content} onChange={setContent} />
+                        </div>
+                    </Field>
+                </div>
+                <Button type="submit" className="mx-auto w-[250px]" isLoading={loading}>
                     Add new post
                 </Button>
             </form>
