@@ -1,4 +1,4 @@
-import React from "react";
+import Link from "next/link";
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
 import PostImage from "./PostImage";
@@ -70,9 +70,15 @@ const PostNewestItem = ({ item }) => {
 
             <div className="post-content">
                 {category?.id && <PostCategory>{capitalizeFirstLetter(category?.name.toLowerCase())}</PostCategory>}
-                <PostTitle>
-                    {item.title}
-                </PostTitle>
+                <Link href={`/post/${item.id}`}>
+                    <a>
+                        <PostTitle size="big">
+                            {item.title}
+                        </PostTitle>
+                    </a>
+                </Link>
+
+
                 <PostMeta authorName={capitalizeFirstLetter(item.createdBy)} date={dateToYMD(new Date(item.createdDate)) || ''}></PostMeta>
             </div>
         </PostNewestItemStyles>

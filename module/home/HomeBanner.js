@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { Button } from "../../components/button";
-
+import { SwiperSlide, Swiper } from "swiper/react";
+import { Pagination } from "swiper";
+import Layout from "../../components/layout/Layout";
 const HomeBannerStyles = styled.div`
   min-height: 520px;
   padding: 40px 0;
@@ -11,6 +13,11 @@ const HomeBannerStyles = styled.div`
     ${(props) => props.theme.secondary}
   );
   margin-bottom: 60px;
+  .swiper-pagination-bullet{
+    width: var(--swiper-pagination-bullet-width,var(--swiper-pagination-bullet-size,15px));
+    height: var(--swiper-pagination-bullet-height,var(--swiper-pagination-bullet-size,15px));
+    background-color:  ${(props) => props.theme.grayF3};
+  }
   .banner {
     display: flex;
     justify-content: space-between;
@@ -56,23 +63,67 @@ const HomeBanner = () => {
     return (
         <HomeBannerStyles>
             <div className="container">
-                <div className="banner">
-                    <div className="banner-content">
-                        <h1 className="banner-heading">Monkey Blog</h1>
-                        <p className="banner-desc">
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                            Molestias aut, repellat ipsum facere voluptate dicta obcaecati
-                            deserunt nobis suscipit eaque?
-                        </p>
-                        <Button href="/SignUp" kind="secondary" className="banner-button">
-                            Get started
-                        </Button>
-                    </div>
-                    <div className="banner-image">
-                        <img src="/img-banner.png" alt="banner" />
-                    </div>
-                </div>
+                <Swiper grabCursor={"true"} slidesPerView={"auto"} pagination={{
+                    dynamicBullets: true,
+                }} modules={[Pagination]} className="mySwiper">
+                    <SwiperSlide>
+                        <div className="banner">
+                            <div className="banner-content">
+                                <h1 className="banner-heading">Monkey Blog</h1>
+                                <p className="banner-desc">
+                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    Molestias aut, repellat ipsum facere voluptate dicta obcaecati
+                                    deserunt nobis suscipit eaque?
+                                </p>
+                                <Button href="/SignUp" kind="secondary" className="banner-button">
+                                    Get started
+                                </Button>
+                            </div>
+                            <div className="banner-image">
+                                <img src="/img-banner.png" alt="banner" />
+                            </div>
+                        </div>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <div className="banner">
+                            <div className="banner-content">
+                                <h1 className="banner-heading">Monkey Blog</h1>
+                                <p className="banner-desc">
+                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    Molestias aut, repellat ipsum facere voluptate dicta obcaecati
+                                    deserunt nobis suscipit eaque?
+                                </p>
+                                <Button href="/SignUp" kind="secondary" className="banner-button">
+                                    Get started
+                                </Button>
+                            </div>
+                            <div className="banner-image">
+                                <img src="/img-banner.png" alt="banner" />
+                            </div>
+                        </div>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <div className="banner">
+                            <div className="banner-content">
+                                <h1 className="banner-heading">Monkey Blog</h1>
+                                <p className="banner-desc">
+                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    Molestias aut, repellat ipsum facere voluptate dicta obcaecati
+                                    deserunt nobis suscipit eaque?
+                                </p>
+                                <Button href="/SignUp" kind="secondary" className="banner-button">
+                                    Get started
+                                </Button>
+                            </div>
+                            <div className="banner-image">
+                                <img src="/img-banner.png" alt="banner" />
+                            </div>
+                        </div>
+                    </SwiperSlide>
+                </Swiper>
+
             </div>
+
         </HomeBannerStyles>
     );
 };

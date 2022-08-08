@@ -7,6 +7,7 @@ import PostCategory from '../../module/post/PostCategory';
 import PostImage from '../../module/post/PostImage';
 import PostItem from '../../module/post/PostItem';
 import PostMeta from '../../module/post/PostMeta';
+import PostTitle from '../../module/post/PostTitle';
 import wrapper from "../../redux/configureStore";
 import { AxiosService } from '../../utils';
 import NotFoundPage from '../404';
@@ -37,6 +38,9 @@ const PostDetailsPageStyles = styled.div`
     &-content {
       max-width: 700px;
       margin: 80px auto;
+    }
+    &-comment {
+        margin: 80px auto;
     }
   }
   .author {
@@ -101,9 +105,7 @@ const PostDetailsPage = (props) => {
 
     const router = useRouter()
     const { post } = props;
-    if (!post && !post?.id) return <NotFoundPage/>;
-    console.log(post)
-
+    if (!post && !post?.id) return <NotFoundPage />;
     return (
         <PostDetailsPageStyles>
             <Layout>
@@ -144,7 +146,7 @@ const PostDetailsPage = (props) => {
                             </p>
 
                             <p>
-                                Juicy meatballs brisket slammin' baked shoulder. Juicy smoker
+                                Juicy meatballs brisket slammin baked shoulder. Juicy smoker
                                 soy sauce burgers brisket. polenta mustard hunk greens. Wine
                                 technique snack skewers chuck excess. Oil heat slowly. slices
                                 natural delicious, set aside magic tbsp skillet, bay leaves
@@ -213,14 +215,35 @@ const PostDetailsPage = (props) => {
                         </div>
                     </div>
                     <div className="post-related">
-                        <Heading>Bài viết liên quan</Heading>
+                        <Heading>Related</Heading>
                         <div className="grid-layout grid-layout--primary">
+                            <a>ddd</a>
+                            <a>ddd</a>
+                            <a>ddd</a>
+                            <a>ddd</a>
+                            {/* <PostItem></PostItem>
                             <PostItem></PostItem>
                             <PostItem></PostItem>
-                            <PostItem></PostItem>
-                            <PostItem></PostItem>
+                            <PostItem></PostItem> */}
                         </div>
                     </div>
+
+                    <div className='post-comment'>
+                        <Heading>Comments</Heading>
+                        <div className="flex justify-center items-center">
+                            <div className="h-80 px-7 w-[700px] rounded-[12px] bg-[#1DC071] p-4">
+                                <p className="text-xl font-semibold text-white transition-all">Add Comment/Questions</p>
+                                <textarea className="h-40 px-3 text-sm py-1 mt-5 outline-none border-pink-300 w-full resize-none border rounded-lg placeholder:text-sm" placeholder="Add your comments here" defaultValue={""} />
+                                <div className="flex justify-between mt-2">
+                                    <button className="h-12 w-[150px] bg-white text-sm text-[#1DC071] rounded-lg transition-all cursor-pointe">Submit comment
+                                    </button>
+                                    <p className="text-sm text-white ">Enter atleast 15 characters</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </Layout>
         </PostDetailsPageStyles>

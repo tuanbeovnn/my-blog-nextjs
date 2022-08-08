@@ -16,7 +16,7 @@ class AxiosServer {
         let token = ""
         let tokenAdmin = "";
         try {
-            token = localStorage.getItem('token');
+            token = localStorage.getItem('accessToken');
             tokenAdmin = localStorage.getItem('tokenAdmin');
         } catch (e) {
 

@@ -8,7 +8,8 @@ const initialState = {
     newposts: [],
     trendingposts: [],
     newpostsRemaining: [],
-    postDetails: {}
+    postDetails: {},
+    tags: []
 
 };
 
@@ -86,6 +87,15 @@ const reducer = (state = initialState, action) => {
         }
         case adminAction.FETCH_POST_DETAILS_FAILED: {
             copyState.postDetails = action.payload;
+            return copyState;
+        }
+
+        case adminAction.FETCH_LIST_TAG_SUCCESS: {
+            copyState.tags = action.payload.details.list;
+            return copyState;
+        }
+
+        case adminAction.FETCH_LIST_TAG_FAILED: {
             return copyState;
         }
 

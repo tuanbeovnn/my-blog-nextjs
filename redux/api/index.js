@@ -34,3 +34,11 @@ export const fetchCategoryList = () => {
 export const fetchPostDetails = (postId) => {
     return AxiosService.get(`/posts/${postId}`);
 }
+
+export const fetchTagListRequest = () => {
+    return AxiosService.get(`/tags`);
+}
+
+export const addPostRequest = (body) => {
+    return AxiosService.post(`posts`, body, {"Content-Type": 'multipart/form-data'});
+}

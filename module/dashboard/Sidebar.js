@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
+import { Button } from "../../components/button";
 import { NavLink } from "../../components/navlink/NavLink";
 const SidebarStyles = styled.div`
   width: 300px;
@@ -144,7 +145,11 @@ const Sidebar = () => {
     return (
         <SidebarStyles className="sidebar">
             <div className="sidebar-logo">
-                <img srcSet="/logo.png 2x" alt="" />
+                <Link href={"/"}>
+                    <a>
+                        <img srcSet="/logo.png 2x" alt="" />
+                    </a>
+                </Link>
                 <span>Monkey Blogging</span>
             </div>
             {sidebarLinks.map((link) => {

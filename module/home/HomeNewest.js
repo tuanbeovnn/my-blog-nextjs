@@ -1,11 +1,15 @@
 
-import React from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
 import Heading from "../../components/layout/Heading";
-import PostItem from "../post/PostItem";
 import PostNewestItem from "../post/PostNewestItem";
 import PostNewestLarge from "../post/PostNewestLarge";
-import { connect } from "react-redux";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import SwiperCore, { Autoplay } from 'swiper';
+import PostItem from "../post/PostItem";
+SwiperCore.use([Autoplay]);
 const HomeNewestStyles = styled.div`
   .layout {
     display: grid;
@@ -19,6 +23,14 @@ const HomeNewestStyles = styled.div`
     background-color: #f3edff;
     border-radius: 16px;
   }
+  .newest-list .swiper-slide {
+    width: 275px;
+    height: auto;
+  }
+  .banner .swiper {
+    height: 100%;
+  }
+
   @media screen and (max-width: 1023.98px) {
     .layout {
       grid-template-columns: 100%;
@@ -48,12 +60,31 @@ const HomeNewest = (props) => {
                         })}
                     </div>
                 </div>
-                <div className="grid-layout grid-layout--primary">
+                {/* <div className="grid-layout grid-layout--primary">
                     {newpostsRemaining && newpostsRemaining.map((item) => {
                         return (
                             <PostItem key={item.id} item={item}></PostItem>
                         )
                     })}
+                </div> */}
+                <div className="newest-list">
+                    <Swiper
+                        grabCursor={"true"}
+                        spaceBetween={40}
+                        slidesPerView={"auto"}
+                        autoplay={{
+                            delay: 5000,
+                            disableOnInteraction: false,
+                        }}
+                    >
+                        {newpostsRemaining && newpostsRemaining.map((item) => {
+                            return (
+                                <SwiperSlide key={item.id}>
+                                    <PostItem key={item.id} item={item}></PostItem>
+                                </SwiperSlide>
+                            );
+                        })}
+                    </Swiper>
                 </div>
             </div>
         </HomeNewestStyles>

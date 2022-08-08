@@ -132,6 +132,37 @@ function* getPostDetails({ payload, callback }) {
 }
 
 
+function* getListTag({ payload, callback }) {
+    try {
+        const response = yield call(apiRequest.fetchTagListRequest);
+        yield put({ type: adminAction.FETCH_LIST_TAG_SUCCESS, payload: response.data });
+        if (typeof callback === "function") {
+            callback({ success: true })
+        }
+    } catch (e) {
+        yield put({ type: adminAction.FETCH_LIST_TAG_FAILED });
+        if (typeof callback === 'function') {
+            callback(e);
+        }
+    }
+}
+
+function* addPost({ payload, callback }) {
+    try {
+        const response =  yield call(apiRequest.addPostRequest, payload);
+        yield put({ type: adminAction.ADD_POST_SUCCESS, payload: response.data });
+        if (typeof callback === "function") {
+            callback({ success: true })
+        }
+    } catch (e) {
+        yield put({ type: adminAction.ADD_POST_FAILED });
+        if (typeof callback === 'function') {
+            callback(e);
+        }
+    }
+}
+
+
 function* appSaga() {
     yield all([
         yield takeEvery(adminAction.FETCH_LIST_POST, getListPost),
@@ -141,7 +172,9 @@ function* appSaga() {
         yield takeEvery(adminAction.FETCH_LIST_POST_NEWEST, getListPostNewest),
         yield takeEvery(adminAction.FETCH_LIST_POST_TRENDING, getListPostTrending),
         yield takeEvery(adminAction.FETCH_LIST_POST_NEWEST_REMAINING, getListPostNewestRemaining),
-        yield takeEvery(adminAction.FETCH_POST_DETAILS, getPostDetails)
+        yield takeEvery(adminAction.FETCH_POST_DETAILS, getPostDetails),
+        yield takeEvery(adminAction.FETCH_LIST_TAG, getListTag),
+        yield takeEvery(adminAction.ADD_POST, addPost)
     ])
 }
 

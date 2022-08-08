@@ -83,8 +83,11 @@ const Header = (props) => {
         <HeaderStyles>
             <div className="container">
                 <div className="header-main">
-                    <Link href="/">
-                        <img srcSet="/logo.png 2x" alt="monkey-blogging" className="logo" />
+                    <Link href={"/"}>
+                        <a>
+                            <img srcSet="/logo.png 2x" alt="monkey-blogging" className="logo" />
+                        </a>
+
                     </Link>
                     <ul className="menu">
                         {menuLinks.map((item) => (
@@ -160,4 +163,4 @@ const Header = (props) => {
 };
 
 
-export default connect((store) => ({user: store.Admin.user, store }))(Header);
+export default connect((store) => ({ user: store.Admin.user, store }))(Header);

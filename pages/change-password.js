@@ -13,7 +13,7 @@ import { connect, useDispatch } from "react-redux";
 import { toast } from 'react-toastify';
 import * as yup from "yup";
 import InputPasswordToggle from '../components/input/InputPasswordToggle';
-import { getServerSideProps } from "./../utils/getServerSideProps";
+import { getServerSideProps } from "../utils/getServerSideProps";
 // import typeAction from '../redux/actions/admin/AdminAction';
 import Router from 'next/router';
 import Layout from '../components/layout/Layout';
@@ -21,7 +21,7 @@ import adminAction from '../redux/actions/admin';
 
 
 
-const SignInPageStyled = styled.div`
+const ChangePassPageStyled = styled.div`
     min-height: 100vh;
     padding: 40px;
     .logo {
@@ -61,7 +61,7 @@ const schema = yup.object({
 });
 
 
-const SignInPage = (props) => {
+const ChangePasswordPage = (props) => {
     const { control, handleSubmit, formState: { errors, isSubmitting, isValid }, watch, reset } = useForm({ mode: "onChange", resolver: yupResolver(schema) });
     const [togglePassword, setTogglePassword] = React.useState(false);
     const dispatch = useDispatch();
@@ -101,7 +101,7 @@ const SignInPage = (props) => {
 
         <Layout isHiddenHeader={true}>
 
-            <SignInPageStyled>
+            <ChangePassPageStyled>
                 <div className='container'>
                     <Link href={"/"}>
                         <img srcSet="/logo.png 2x" alt="monkey-blogging" className="logo" />
@@ -143,7 +143,7 @@ const SignInPage = (props) => {
                             disabled={isSubmitting}>Sign In</Button>
                     </form>
                 </div>
-            </SignInPageStyled>
+            </ChangePassPageStyled>
         </Layout>
 
     );
@@ -153,4 +153,4 @@ const SignInPage = (props) => {
 export { getServerSideProps };
 
 
-export default connect((store) => ({ categories: store.Admin.categories, user: store.Admin.user, store }))(SignInPage);
+export default connect((store) => ({ categories: store.Admin.categories, user: store.Admin.user, store }))(ChangePasswordPage);

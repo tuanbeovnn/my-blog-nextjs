@@ -28,6 +28,10 @@ export const getServerSideProps = wrapper.getServerSideProps(async ({ store }) =
     store.dispatch({
         type: typeAction.FETCH_LIST_CATEGORY,
     })
+
+    store.dispatch({
+        type: typeAction.FETCH_LIST_TAG,
+    })
    
     store.dispatch(END)
     await store.startSaga.toPromise()

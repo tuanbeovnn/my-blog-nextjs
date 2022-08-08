@@ -3,9 +3,11 @@ const PostTitleStyles = styled.h3`
   font-weight: 600;
   line-height: 1.5;
   letter-spacing: 0.25px;
+  cursor: pointer;
   &:hover {
-    text-decoration: underline ;
+    text-decoration: underline;
   }
+  
   a {
     display: block;
   }

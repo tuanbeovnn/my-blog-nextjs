@@ -13,7 +13,7 @@ import { connect, useDispatch } from "react-redux";
 import { toast } from 'react-toastify';
 import * as yup from "yup";
 import InputPasswordToggle from '../components/input/InputPasswordToggle';
-import { getServerSideProps } from "./../utils/getServerSideProps";
+import { getServerSideProps } from "../utils/getServerSideProps";
 // import typeAction from '../redux/actions/admin/AdminAction';
 import Router from 'next/router';
 import Layout from '../components/layout/Layout';
@@ -21,7 +21,7 @@ import adminAction from '../redux/actions/admin';
 
 
 
-const SignInPageStyled = styled.div`
+const ForgotPasswordPageStyled = styled.div`
     min-height: 100vh;
     padding: 40px;
     .logo {
@@ -61,7 +61,7 @@ const schema = yup.object({
 });
 
 
-const SignInPage = (props) => {
+const ForgotPasswordPage = (props) => {
     const { control, handleSubmit, formState: { errors, isSubmitting, isValid }, watch, reset } = useForm({ mode: "onChange", resolver: yupResolver(schema) });
     const [togglePassword, setTogglePassword] = React.useState(false);
     const dispatch = useDispatch();
@@ -95,13 +95,9 @@ const SignInPage = (props) => {
         }
     }, [user])
 
-
-
     return (
-
         <Layout isHiddenHeader={true}>
-
-            <SignInPageStyled>
+            <ForgotPasswordPageStyled>
                 <div className='container'>
                     <Link href={"/"}>
                         <img srcSet="/logo.png 2x" alt="monkey-blogging" className="logo" />
@@ -119,31 +115,15 @@ const SignInPage = (props) => {
                                 control={control}
                             />
                         </Field>
-                        <Field>
-                            <Label htmlFor='password'>
-                                Password
-                            </Label>
-                            <InputPasswordToggle control={control}>
-                                {!togglePassword ? <IconEyeClose onClick={() => setTogglePassword(true)}></IconEyeClose> : <IconEyeOpen onClick={() => setTogglePassword(false)}></IconEyeOpen>}
-
-                            </InputPasswordToggle>
-                        </Field>
-                        <div className="have-account">
-                            Do you have an account ?{" "}
-                            <Link href={"/sign-up"}>Register an account</Link>{" "}
-                            Or{" "}
-                            <Link href={"/forgot"}>Forgot Password ?</Link>{" "}
-                        </div>
-                       
                         <Button type='submit' style={{
                             width: "100%",
                             maxWidth: 300,
                             margin: "0 auto",
                         }} isLoading={isSubmitting}
-                            disabled={isSubmitting}>Sign In</Button>
+                            disabled={isSubmitting}>Reset Password</Button>
                     </form>
                 </div>
-            </SignInPageStyled>
+            </ForgotPasswordPageStyled>
         </Layout>
 
     );
@@ -153,4 +133,4 @@ const SignInPage = (props) => {
 export { getServerSideProps };
 
 
-export default connect((store) => ({ categories: store.Admin.categories, user: store.Admin.user, store }))(SignInPage);
+export default connect((store) => ({ categories: store.Admin.categories, user: store.Admin.user, store }))(ForgotPasswordPage);
